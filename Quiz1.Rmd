@@ -11,12 +11,16 @@ The en_US.blogs.txt  file has 200 megabytes.
 
 The en_US.twitter.txt has over 2 million lines of text?
 
-### Question 3
+### Question 3 (Wrong)
 
 The longest string in:
 - en_US.twitter.txt is 211
 - en_US.news.txt is 5,760
 - en_US.blogs.txt is 37,241
+
+new numbers:
+blogs 40833
+news 11384
 
 So:
 
@@ -36,8 +40,10 @@ The one tweet in the en_US twitter data set that matches the word "biostats" say
 
 In other words "They haven't studied for their biostats exam".
 
-### Question 6
+### Question 6 wrong
 
 Only one tweet contains the line "A computer once beat me at chess, but it was no match for me at kickboxing".
 
 There are 9 similar variations.
+
+Due to errors reading in the file I'm not finding all string results. According to notepad++ there are 3 hits.
