@@ -1,0 +1,27 @@
+---
+title: "Quiz1"
+output: html_document
+---
+
+### Question 1
+
+The en_US.blogs.txt  file has 200 megabytes.
+
+### Question 2
+
+The en_US.twitter.txt has over 2 million lines of text?
+
+### Question 3
+
+The longest string in:
+- en_US.twitter.txt is 211
+- en_US.news.txt is 5,760
+- en_US.blogs.txt is 37,241
+
+So:
+
+What is the length of the longest line seen in any of the three en_US data sets? Over 11 thousand in the blogs data set
+
+### Question 4
+
+The word "love" appears in the en_US twitter data set 58,928 times.
