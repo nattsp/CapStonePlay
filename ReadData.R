@@ -57,9 +57,54 @@ close(con) ## It's important to close the connection when you are done
 
 con <- file("..\\..\\Data\\Coursera-SwiftKey\\final\\en_US\\en_US.twitter.txt", "r")
 UStwitterLoveCount <- 0
+UStwitterHateCount <- 0
 while (length(oneLine <- readLines(con, n = 1, warn = FALSE)) > 0) {
   line <- readLines(con, 1)
-  UStwitterLoveCount <- UStwitterLoveCount + str_detect(line, "[Ll][Oo][Vv][Ee]")
+  UStwitterLoveCount <- UStwitterLoveCount + str_detect(line, "love")
+  UStwitterHateCount <- UStwitterHateCount + str_detect(line, "hate")
 }
 print(UStwitterLoveCount)
+print(UStwitterHateCount)
 close(con)
+UStwitterLoveCount/UStwitterHateCount
+
+
+## Question 5
+
+#biostats
+con <- file("..\\..\\Data\\Coursera-SwiftKey\\final\\en_US\\en_US.twitter.txt", "r")
+while (length(oneLine <- readLines(con, n = 1, warn = FALSE)) > 0) {
+  line <- readLines(con, 1)
+  if (str_detect(line, "biostats")){
+    print(line)
+  }
+}
+close(con)
+
+
+## Question 6
+
+
+con <- file("..\\..\\Data\\Coursera-SwiftKey\\final\\en_US\\en_US.twitter.txt", "r")
+countLine <- 0
+while (length(oneLine <- readLines(con, n = 1, warn = FALSE)) > 0) {
+  line <- readLines(con, 1)
+  if (str_detect(line, "A computer once beat me at chess, but it was no match for me at kickboxing")){
+    print(line)
+    countLine <- countLine + 1
+  }
+}
+close(con)
+print(countLine)
+
+con <- file("..\\..\\Data\\Coursera-SwiftKey\\final\\en_US\\en_US.twitter.txt", "r")
+countLine <- 0
+while (length(oneLine <- readLines(con, n = 1, warn = FALSE)) > 0) {
+  line <- readLines(con, 1)
+  if (str_detect(line, "A computer once beat me at chess")){
+    print(line)
+    countLine <- countLine + 1
+  }
+}
+close(con)
+print(countLine)
