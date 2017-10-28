@@ -60,6 +60,11 @@ while (length(oneLine <- readLines(con, n = 1, warn = FALSE)) > 0) {
 print(maxLength)
 close(con)
 
+#####################
+##
+## I'm happy with this calculation of length
+##
+#####################
 
 ### countNumLines
 
