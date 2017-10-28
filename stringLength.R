@@ -82,6 +82,35 @@ countNumLinesAllFiles <- function(filesDFf) {
     #return(numLinesListf)
 }
 
+countRowLength <- function(pathf, lengthf) {
+  conf <- file(pathf, "rb")
+  maxLengthf <- 0
+  for (i in 1:lengthf){
+    linefun <- readLines(conf, n = 1)
+    linelength <- str_length(linefun)
+    if (linelength > maxLength){
+      print(i)
+      print(maxLength <- linelength)
+      print(linefun)
+    }
+  }
+  close(conf)
+  return(maxLength)
+}
+
+rowLengthLinesAllFiles <- function(filesDFf) {
+  n <- length(filesDFf$filePath)
+  lengthLinesListf <- vector("list", n)
+  for (i in 1:n){
+    path <- filesDF$filePath[i]
+    numLinesf <- filesDF$numLines[i]
+    print(path)
+    lengthLinesListf[i] <- countRowLength(path, numLinesf)
+  }
+  return(unlist(lengthLinesListf, recursive = FALSE))
+}
+
+
 filesDF <- data.frame(filePath = c(
   "..\\..\\Data\\Coursera-SwiftKey\\final\\en_US\\en_US.twitter.txt"
   ,"..\\..\\Data\\Coursera-SwiftKey\\final\\en_US\\en_US.news.txt"
@@ -93,4 +122,12 @@ filesDF <- data.frame(filePath = c(
 numLinesList <- countNumLinesAllFiles(filesDF)
 filesDF <- bind_cols(filesDF, numLines = numLinesList)
 
+#### Count length of lines
 
+#countRowLength("en_US.twitter_short.txt", 11)
+#countRowLength("..\\..\\Data\\Coursera-SwiftKey\\final\\en_US\\en_US.twitter.txt", 2360148)
+
+lengthLinesList <- rowLengthLinesAllFiles(filesDF)
+filesDF <- bind_cols(filesDF, longestLength = lengthLinesList)
+
+save(filesDF, file = "..\\..\\Data\\filesDF.RData")
