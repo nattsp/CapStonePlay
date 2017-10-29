@@ -51,6 +51,27 @@ copySampleOfText <- function(pathf, lengthf, flipsf){
     return(sampleData) #returns a tibble
 }
 
+copySampleOfText2 <- function(pathf, lengthf, flipsf){
+    sampleSize <- sum(flipsf)
+    sampleData <- data.frame(
+        textNumber = numeric(sampleSize)
+        , text = character(sampleSize)
+        , stringsAsFactors = FALSE)
+    con <- file(pathf, "rb")
+    j = 1
+    for (i in 1:lengthf){
+        oneLine <- readLines(con, n = 1)
+        if (flipsf[i] == 1){
+            sampleData[j, 1] <- i
+            sampleData[j, 2] <- oneLine
+            j <- j+1
+        }
+    }
+    close(con)
+    return(sampleData) #returns a tibble
+}
+
+
 ## 10% of US twitter entries
 set.seed(3736)
 theta <- 0.1 # around 10% of cases
@@ -76,9 +97,49 @@ save(sampleData, file = "..\\..\\Data\\en_US.twitterSample.RData")
 
 filePath <- filter(filesDF, grepl('twitter', filePath))$filePath
 sampleData2 <- copySampleOfText(filePath, totalNumLines, flips)
-save(sampleData2, file = "..\\..\\Data\\en_US.twitterSample2.RData")
+save(sampleData3, file = "..\\..\\Data\\en_US.twitterSample3.RData")
 
 df_source <- DataframeSource(sampleData)
 dr_corpusSampleData <- VCorpus(df_source)
 sampleData3 <- as_tibble(sampleData)
 names(sampleData)[1] <- "text"
+
+flipsRow <- as.data.frame(flips)
+flipsRow$RowCount <- 1:nrow(flipsRow)
+rowCount <- filter(flipsRow, flips == 1)
+
+copySampleOfText2 <- function(pathf, lengthf, flipsf)
+sampleDataWithRow <- copySampleOfText2(filePath, totalNumLines, flips)
+sampleDataWithRowTibble <- as_tibble(sampleDataWithRow)
+save(sampleDataWithRowTibble, file = "..\\..\\Data\\sampleDataWithRowTibble.RData")
+
+
+load(file = "..\\..\\Data\\sampleDataWithRowTibble.RData")
+
+nrow(sampleDataWithRowTibble)
+
+# I too around 10 percent of the twitter data as a sample to begin working with
+# This was 236,438 rows
+# I decided to use this number of documents from the other sets
+totalNumLinesNews <- filter(filesDF, grepl('news', filePath))$numLines
+filePath <- filter(filesDF, grepl('news', filePath))$filePath
+sampleSize <- 236438
+flips_news <- rbinom(totalNumLinesNews, size = 1, prob = sampleSize/totalNumLinesNews)
+
+
+sampleNews <- copySampleOfText2(filePath, totalNumLinesNews, flips_news)
+sampleNewsT <- as.tibble(sampleNews)
+sampleNewsT
+save(sampleNewsT, file = "..\\..\\Data\\sampleNewsT.RData")
+nrow(sampleNewsT)
+
+#Sample blogs
+
+totalNumLinesBlogs <- filter(filesDF, grepl('blogs', filePath))$numLines
+filePath <- filter(filesDF, grepl('blogs', filePath))$filePath
+flips_blogs <- rbinom(totalNumLinesBlogs, size = 1, prob = sampleSize/totalNumLinesBlogs)
+
+sampleblogs <- copySampleOfText2(filePath, totalNumLinesBlogs, flips_blogs)
+nrow(sampleblogs)
+sampleBlogsT <- as.tibble(sampleblogs)
+save(sampleBlogsT, file = "..\\..\\Data\\sampleBlogsT.RData")
