@@ -108,15 +108,39 @@ ggplot(sampleWords, aes(n/total, fill = sample)) +
 
 
 
+sampleWords <- sampleWords %>%
+    bind_tf_idf(word, sample, n)
+
+
+sampleWords_idf <- sampleWords %>%
+    select(-total) %>%
+    arrange(desc(tf_idf))
+
+## Plot important words from each sample
+
+plot_important_words <- sampleWords_idf %>%
+    arrange(desc(tf_idf)) %>%
+    mutate(word = factor(word, levels = rev(unique(word))))
+
+
+plot_important_words %>% 
+    group_by(sample) %>% 
+    top_n(15) %>% 
+    ungroup %>%
+    ggplot(aes(word, tf_idf, fill = sample)) +
+    geom_col(show.legend = FALSE) +
+    labs(x = NULL, y = "tf-idf") +
+    facet_wrap(~sample, ncol = 2, scales = "free") +
+    coord_flip()
 
 
 
 
+# Check out an abreviation
 
-
-
-
-
+head(SampleDatatidy[(grepl("smh", SampleDatatidy$text)), ]$text, 30)
+head(sampleBlogsTidy[(grepl("cityâ", sampleBlogsTidy$text)), ]$text, 30)
+# problems with natural language processing "cityâ"
 
 
 
